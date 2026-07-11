@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D Motion for Games — Portfolio</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">2D Motion for Games</p>
+      <h1 class="site-title">Animation Coursework</h1>
+      <p class="site-subtitle">A semester of exercises in timing, weight, and character motion, from a first pendulum swing to a finished animation pass.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid" id="grid"><!-- cards injected by script.js --></div>
+  </main>
+
+  <footer class="site-footer">
+    2D Motion for Games — Game Design Program
+  </footer>
+
+</div>
+
+<script src="assignments.js"></script>
+<script>
+  // Read the last-viewed assignment (set as a cookie from the detail page)
+  // so we can quietly badge it here — purely a nice-to-have, not required
+  // for navigation to work.
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  const lastViewedId = getCookie('lastViewedAssignment');
+  const grid = document.getElementById('grid');
+
+  ASSIGNMENTS.forEach(function (a) {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = 'video.html?id=' + encodeURIComponent(a.id);
+
+    card.innerHTML = `
+      ${a.id === lastViewedId ? '<span class="card-badge">Last viewed</span>' : ''}
+      <video class="card-thumb" src="${a.video}" ${a.poster ? `poster="${a.poster}"` : ''} muted preload="metadata"></video>
+      <div class="card-body">
+        <p class="card-frame">${a.frame}</p>
+        <h2 class="card-title">${a.title}</h2>
+        <div class="card-meta">
+          <span>Due ${a.due}</span>
+          <span>${a.score}</span>
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>

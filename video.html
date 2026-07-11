@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment — 2D Motion for Games</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <a href="index.html" class="back-link" id="backLink">&larr; Back to all assignments</a>
+
+  <main id="content">
+    <!-- filled in by script.js -->
+  </main>
+
+  <footer class="site-footer">
+    2D Motion for Games — Game Design Program
+  </footer>
+
+</div>
+
+<script src="assignments.js"></script>
+<script>
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+  }
+
+  // The URL's ?id= is the source of truth (shareable, bookmarkable, works
+  // with back/forward). If someone lands here with no id at all, fall back
+  // to whichever assignment they last viewed, via cookie.
+  const params = new URLSearchParams(window.location.search);
+  let id = params.get('id') || getCookie('lastViewedAssignment');
+
+  const index = ASSIGNMENTS.findIndex(a => a.id === id);
+  const content = document.getElementById('content');
+
+  if (index === -1) {
+    content.innerHTML = `
+      <div class="empty-state">
+        Couldn't find that assignment. It may have been removed or the link is out of date.
+        <br><br>
+        <a href="index.html" class="back-link">&larr; Back to all assignments</a>
+      </div>
+    `;
+  } else {
+    const a = ASSIGNMENTS[index];
+    setCookie('lastViewedAssignment', a.id, 365);
+
+    const prev = ASSIGNMENTS[index - 1];
+    const next = ASSIGNMENTS[index + 1];
+
+    content.innerHTML = `
+      <p class="detail-frame">${a.frame}</p>
+      <h1 class="detail-title">${a.title}</h1>
+
+      <video class="detail-video" src="${a.video}" ${a.poster ? `poster="${a.poster}"` : ''} controls playsinline></video>
+
+      <div class="detail-meta">
+        <span>Due <strong>${a.due}</strong></span>
+        <span>Score <strong>${a.score}</strong></span>
+      </div>
+
+      <p class="detail-description">${a.description}</p>
+
+      <nav class="detail-nav">
+        ${prev
+          ? `<a class="nav-btn" href="video.html?id=${encodeURIComponent(prev.id)}">&larr; ${prev.title}</a>`
+          : `<span class="nav-btn disabled">&larr; Start of list</span>`}
+        ${next
+          ? `<a class="nav-btn" href="video.html?id=${encodeURIComponent(next.id)}">${next.title} &rarr;</a>`
+          : `<span class="nav-btn disabled">End of list &rarr;</span>`}
+      </nav>
+    `;
+
+    document.title = a.title + ' — 2D Motion for Games';
+  }
+</script>
+
+</body>
+</html>

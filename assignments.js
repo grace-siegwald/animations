@@ -109,7 +109,7 @@ const ASSIGNMENTS = [
     title: "Character-based Run Cycle",
     due: "Nov 10",
     score: "9.5/10",
-    video: "videos/Siegwald_Grace_Character_Run.mp4",
+    video: "videos/Siegwald_Grace_Character_run.mp4",
     poster: "",
     description:
       "A run cycle for the same character, with a shorter contact phase, exaggerated poses, and a moment of full suspension to sell speed."
